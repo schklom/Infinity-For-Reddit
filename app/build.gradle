@@ -17,6 +17,14 @@ android {
             }
         }
     }
+    signingConfigs {
+        release {
+            storeFile file("/Infinity.jks")
+            storePassword "Infinity"
+            keyAlias "Infinity"
+            keyPassword "Infinity"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
