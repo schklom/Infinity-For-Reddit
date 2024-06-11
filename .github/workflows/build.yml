@@ -30,3 +30,12 @@ jobs:
         name: Infinity-${{github.sha}}
         path: app/build/outputs/apk/
         if-no-files-found: error
+
+    - name: Release Infinity-For-Reddit APK v7.2.5
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: "v7.2.5"
+        body: New version of Infinity-For-Reddit
+        files: app/build/outputs/apk/debug/app-debug.apk
+        repository: schklom/Infinity-For-Reddit
+        token: ${{ secrets.PAT_GITHUB_ACTION }}
