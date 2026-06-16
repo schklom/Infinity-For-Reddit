@@ -1,4 +1,4 @@
-name: Build
+name: Build 2
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' && github.ref == format('refs/tags/{0}', 'v8.2.5-rebuilt')
 
     steps:
     - name: Checkout Repository
@@ -41,3 +43,18 @@ jobs:
         name: Infinity-${{github.sha}}
         path: app/build/outputs/apk/
         if-no-files-found: error
+
+    - name: Rename APK
+      run: mv 'app/build/outputs/apk/release/app-release-unsigned-signed.apk' 'app/build/outputs/apk/release/Infinity-For-Reddit.apk'
+
+    - name: Release Infinity-For-Reddit APK v8.2.5
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: "v8.2.5"
+        body: New version of Infinity-For-Reddit
+        files: |
+          app/build/outputs/apk/release/Infinity-For-Reddit.apk
+        repository: schklom/Infinity-For-Reddit
+        token: ${{ secrets.PAT_GITHUB_ACTION }}
+        draft: false
+        make_latest: true
